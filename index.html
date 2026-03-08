@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EuroCar Import</title>
+<title>AutoPfand Markt</title>
 
 <style>
-body { font-family: Arial; margin:0; background:#f2f2f2; }
-header { background:#111; color:white; text-align:center; padding:30px; }
-header h1 { margin:0; }
-.container { max-width:1200px; margin:auto; padding:40px; }
+body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; }
+header { background:#111; color:white; padding:20px 40px; display:flex; justify-content: space-between; align-items:center; flex-wrap:wrap; }
+header h1 { margin:0; font-size:24px; }
+nav { display:flex; gap:20px; }
+nav a { color:white; text-decoration:none; font-weight:bold; }
+nav a:hover { text-decoration:underline; }
+.container { max-width:1200px; margin:auto; padding:40px 20px; }
 .cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
 .car { background:white; border-radius:10px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
 .car img { width:100%; height:180px; object-fit:cover; }
@@ -22,35 +25,45 @@ header h1 { margin:0; }
 button { width:100%; padding:12px; border:none; border-radius:5px; font-size:16px; margin-top:10px; cursor:pointer; }
 .reserve { background:#0a7f2e; color:white; }
 .whatsapp { background:#25D366; color:white; }
-.info { background:#111; color:white; padding:40px; text-align:center; }
+section { padding:40px 0; }
+section h2 { text-align:center; margin-bottom:30px; }
+footer { background:#111; color:white; text-align:center; padding:30px; }
 </style>
-
 </head>
 <body>
 
 <header>
-<h1>EuroCar Import</h1>
-<p>Véhicules disponibles en Europe</p>
+<h1>AutoPfand Markt</h1>
+<nav>
+  <a href="#cars-section">Véhicules</a>
+  <a href="#contact-section">Contact</a>
+</nav>
 </header>
 
-<div class="container">
+<section id="cars-section" class="container">
+<h2>Véhicules disponibles</h2>
 <div class="cars" id="cars"></div>
-</div>
+</section>
 
-<div class="info">
-<h2>Réservation d’un véhicule</h2>
-<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>.</p>
-<p>Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
+<section id="contact-section">
+<div class="container">
+<h2>Réservation et contact</h2>
+<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>. Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
 <p>Contact WhatsApp : +33 7 46 52 56 38</p>
 </div>
+</section>
+
+<footer>
+<p>&copy; 2026 AutoPfand Markt - Tous droits réservés</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
 <script>
 const container = document.getElementById("cars");
-const githubUser = "mistere695"; // ton nom GitHub
-const repo = "AutoPfand-Markt";   // nom du repo
+const githubUser = "mistere695";
+const repo = "AutoPfand-Markt";
 const branch = "main";
 
 async function loadCars() {
@@ -59,7 +72,7 @@ async function loadCars() {
     for (const file of files.data) {
       const carFile = await axios.get(file.download_url);
       const carData = jsyaml.load(carFile.data);
-      
+
       container.innerHTML += `
         <div class="car">
           <img src="${carData.image}">
