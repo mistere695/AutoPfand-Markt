@@ -7,70 +7,92 @@
 
 <style>
 /* === Reset et base === */
-body { font-family: 'Arial', sans-serif; margin:0; background:#f9f9f9; scroll-behavior: smooth; }
-a { text-decoration:none; color:inherit; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Poppins', sans-serif; background:#f0f2f5; color:#333; scroll-behavior:smooth; }
 
-/* === Header et menu === */
-header { background:linear-gradient(90deg,#1e90ff,#00cfff); color:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
-header h1 { margin:0; font-size:26px; font-weight:bold; }
-nav { display:flex; gap:20px; }
-nav a { font-weight:bold; padding:8px 12px; border-radius:5px; transition:0.3s; }
-nav a:hover { background:white; color:#1e90ff; }
+/* === Header / Hero === */
+header { position:relative; height:70vh; background:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1650&q=80') no-repeat center/cover; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; color:white; }
+header h1 { font-size:3rem; text-shadow:0 2px 10px rgba(0,0,0,0.6); margin-bottom:15px; }
+header p { font-size:1.3rem; margin-bottom:30px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
+header a { background:#00cfff; color:white; padding:15px 30px; border-radius:50px; font-weight:bold; font-size:1.2rem; text-decoration:none; transition:0.3s; }
+header a:hover { background:#1e90ff; }
+
+/* === Navigation fixe === */
+nav { position:fixed; top:0; width:100%; display:flex; justify-content:flex-end; gap:20px; padding:20px 50px; z-index:100; background:rgba(0,0,0,0.5); border-bottom:1px solid rgba(255,255,255,0.2); }
+nav a { color:white; font-weight:bold; text-decoration:none; padding:8px 12px; border-radius:5px; transition:0.3s; }
+nav a:hover { background:white; color:#00cfff; }
 
 /* === Sections === */
 section { padding:60px 20px; }
-h2 { text-align:center; margin-bottom:30px; color:#1e90ff; }
+section h2 { text-align:center; font-size:2rem; color:#1e90ff; margin-bottom:40px; }
 
-/* === Conteneur voitures === */
-.container { max-width:1200px; margin:auto; }
-.cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; }
-.car { background:white; border-radius:15px; overflow:hidden; box-shadow:0 8px 20px rgba(0,0,0,0.1); transform:translateY(0); transition:0.4s; }
-.car:hover { transform:translateY(-5px); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+/* === Filtre véhicules === */
+#filter { text-align:center; margin-bottom:30px; }
+#filter button { margin:0 5px; padding:10px 20px; border:none; border-radius:25px; cursor:pointer; background:#00cfff; color:white; font-weight:bold; transition:0.3s; }
+#filter button.active, #filter button:hover { background:#1e90ff; }
+
+/* === Grid véhicules === */
+.container { max-width:1300px; margin:auto; }
+.cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; }
+.car { background:white; border-radius:15px; overflow:hidden; box-shadow:0 15px 30px rgba(0,0,0,0.1); transition:0.5s; cursor:pointer; }
+.car:hover { transform:translateY(-10px); box-shadow:0 25px 35px rgba(0,0,0,0.2); }
 .car img { width:100%; height:200px; object-fit:cover; }
-.car-info { padding:15px; }
-.price { font-size:20px; color:#00cfff; font-weight:bold; }
-.status { font-weight:bold; margin-top:5px; padding:5px 8px; border-radius:5px; display:inline-block; }
+.car-info { padding:20px; }
+.car-info h3 { font-size:1.4rem; margin-bottom:10px; }
+.car-info p { margin:5px 0; }
+.price { font-size:1.3rem; font-weight:bold; color:#00cfff; }
+.status { display:inline-block; padding:5px 10px; border-radius:12px; font-weight:bold; margin-top:10px; }
 .available { background:#00cfff20; color:#00cfff; }
 .reserved { background:#ffa50020; color:#ff8c00; }
 .sold { background:#ff4c4c20; color:#ff0000; }
-button { width:100%; padding:12px; border:none; border-radius:5px; font-size:16px; margin-top:10px; cursor:pointer; transition:0.3s; }
+
+/* === Boutons === */
+button { width:100%; padding:12px; border:none; border-radius:50px; font-size:16px; margin-top:10px; cursor:pointer; font-weight:bold; transition:0.3s; }
 .reserve { background:#1e90ff; color:white; }
 .reserve:hover { background:#00cfff; }
 .whatsapp { background:#25D366; color:white; }
 .whatsapp:hover { background:#00b050; }
 
 /* === Section contact === */
-.contact { text-align:center; background:#1e90ff20; border-radius:15px; padding:30px; max-width:700px; margin:auto; }
+.contact { text-align:center; background:#00cfff20; border-radius:15px; padding:40px; max-width:700px; margin:40px auto; }
 .contact p { margin:10px 0; }
 
 /* === Footer === */
 footer { background:#1e90ff; color:white; text-align:center; padding:30px; margin-top:30px; font-size:14px; }
 
-/* === Scroll animation === */
+/* === Animations === */
 @keyframes fadeUp { 0% { opacity:0; transform:translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
 .car { animation: fadeUp 0.5s ease forwards; }
 </style>
 </head>
 <body>
 
-<header>
-<h1>AutoPfand Markt</h1>
 <nav>
   <a href="#cars-section">Véhicules</a>
   <a href="#contact-section">Contact</a>
 </nav>
+
+<header>
+<h1>AutoPfand Markt</h1>
+<p>Votre partenaire pour des véhicules fiables en Europe</p>
+<a href="#cars-section">Voir nos véhicules</a>
 </header>
 
 <section id="cars-section" class="container">
 <h2>Nos Véhicules</h2>
+<div id="filter">
+  <button class="active" onclick="filterCars('all')">Tous</button>
+  <button onclick="filterCars('Disponible')">Disponible</button>
+  <button onclick="filterCars('Réservé')">Réservé</button>
+  <button onclick="filterCars('Vendu')">Vendu</button>
+</div>
 <div class="cars" id="cars"></div>
 </section>
 
 <section id="contact-section">
 <div class="contact">
 <h2>Réservation et contact</h2>
-<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>.</p>
-<p>Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
+<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>. Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
 <p>Contact WhatsApp : +33 7 46 52 56 38</p>
 </div>
 </section>
@@ -84,42 +106,58 @@ footer { background:#1e90ff; color:white; text-align:center; padding:30px; margi
 
 <script>
 const container = document.getElementById("cars");
+let carsData = [];
 const githubUser = "mistere695";
 const repo = "AutoPfand-Markt";
 const branch = "main";
 
+// Charger toutes les voitures depuis GitHub
 async function loadCars() {
   try {
     const files = await axios.get(`https://api.github.com/repos/${githubUser}/${repo}/contents/_voitures?ref=${branch}`);
     for (const file of files.data) {
       const carFile = await axios.get(file.download_url);
       const carData = jsyaml.load(carFile.data);
-
-      container.innerHTML += `
-        <div class="car">
-          <img src="${carData.image}">
-          <div class="car-info">
-            <h3>${carData.name}</h3>
-            <p>Année : ${carData.year}</p>
-            <p>Kilométrage : ${carData.km} km</p>
-            <p class="price">${carData.price} €</p>
-            <p class="status ${carData.status.toLowerCase()}">${carData.status}</p>
-            <button class="reserve" onclick="reserve('${carData.name}')">
-              Réserver (150€)
-            </button>
-            <button class="whatsapp" onclick="contact('${carData.name}')">
-              Contacter WhatsApp
-            </button>
-          </div>
-        </div>
-      `;
+      carsData.push(carData);
     }
+    displayCars(carsData);
   } catch (error) {
     console.error("Erreur lors du chargement des voitures :", error);
   }
 }
 
-loadCars();
+// Afficher voitures filtrées
+function displayCars(list) {
+  container.innerHTML = "";
+  list.forEach(carData => {
+    container.innerHTML += `
+      <div class="car">
+        <img src="${carData.image}">
+        <div class="car-info">
+          <h3>${carData.name}</h3>
+          <p>Année : ${carData.year}</p>
+          <p>Kilométrage : ${carData.km} km</p>
+          <p class="price">${carData.price} €</p>
+          <p class="status ${carData.status.toLowerCase()}">${carData.status}</p>
+          <button class="reserve" onclick="reserve('${carData.name}')">
+            Réserver (150€)
+          </button>
+          <button class="whatsapp" onclick="contact('${carData.name}')">
+            Contacter WhatsApp
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Filtre par statut
+function filterCars(status) {
+  document.querySelectorAll('#filter button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(status === 'all') displayCars(carsData);
+  else displayCars(carsData.filter(c => c.status === status));
+}
 
 function reserve(car) {
   window.location.href = `https://wa.me/33746525638?text=Bonjour, je souhaite réserver le véhicule ${car} avec l'acompte de 150€`;
@@ -128,6 +166,8 @@ function reserve(car) {
 function contact(car) {
   window.location.href = `https://wa.me/33746525638?text=Bonjour, je souhaite des informations sur ${car}`;
 }
+
+loadCars();
 </script>
 
 </body>
