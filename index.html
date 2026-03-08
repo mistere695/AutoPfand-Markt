@@ -6,28 +6,49 @@
 <title>AutoPfand Markt</title>
 
 <style>
-body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; }
-header { background:#111; color:white; padding:20px 40px; display:flex; justify-content: space-between; align-items:center; flex-wrap:wrap; }
-header h1 { margin:0; font-size:24px; }
+/* === Reset et base === */
+body { font-family: 'Arial', sans-serif; margin:0; background:#f9f9f9; scroll-behavior: smooth; }
+a { text-decoration:none; color:inherit; }
+
+/* === Header et menu === */
+header { background:linear-gradient(90deg,#1e90ff,#00cfff); color:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+header h1 { margin:0; font-size:26px; font-weight:bold; }
 nav { display:flex; gap:20px; }
-nav a { color:white; text-decoration:none; font-weight:bold; }
-nav a:hover { text-decoration:underline; }
-.container { max-width:1200px; margin:auto; padding:40px 20px; }
-.cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
-.car { background:white; border-radius:10px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
-.car img { width:100%; height:180px; object-fit:cover; }
+nav a { font-weight:bold; padding:8px 12px; border-radius:5px; transition:0.3s; }
+nav a:hover { background:white; color:#1e90ff; }
+
+/* === Sections === */
+section { padding:60px 20px; }
+h2 { text-align:center; margin-bottom:30px; color:#1e90ff; }
+
+/* === Conteneur voitures === */
+.container { max-width:1200px; margin:auto; }
+.cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; }
+.car { background:white; border-radius:15px; overflow:hidden; box-shadow:0 8px 20px rgba(0,0,0,0.1); transform:translateY(0); transition:0.4s; }
+.car:hover { transform:translateY(-5px); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+.car img { width:100%; height:200px; object-fit:cover; }
 .car-info { padding:15px; }
-.price { font-size:20px; color:#0a7f2e; font-weight:bold; }
-.status { font-weight:bold; margin-top:5px; }
-.available { color:green; }
-.reserved { color:orange; }
-.sold { color:red; }
-button { width:100%; padding:12px; border:none; border-radius:5px; font-size:16px; margin-top:10px; cursor:pointer; }
-.reserve { background:#0a7f2e; color:white; }
+.price { font-size:20px; color:#00cfff; font-weight:bold; }
+.status { font-weight:bold; margin-top:5px; padding:5px 8px; border-radius:5px; display:inline-block; }
+.available { background:#00cfff20; color:#00cfff; }
+.reserved { background:#ffa50020; color:#ff8c00; }
+.sold { background:#ff4c4c20; color:#ff0000; }
+button { width:100%; padding:12px; border:none; border-radius:5px; font-size:16px; margin-top:10px; cursor:pointer; transition:0.3s; }
+.reserve { background:#1e90ff; color:white; }
+.reserve:hover { background:#00cfff; }
 .whatsapp { background:#25D366; color:white; }
-section { padding:40px 0; }
-section h2 { text-align:center; margin-bottom:30px; }
-footer { background:#111; color:white; text-align:center; padding:30px; }
+.whatsapp:hover { background:#00b050; }
+
+/* === Section contact === */
+.contact { text-align:center; background:#1e90ff20; border-radius:15px; padding:30px; max-width:700px; margin:auto; }
+.contact p { margin:10px 0; }
+
+/* === Footer === */
+footer { background:#1e90ff; color:white; text-align:center; padding:30px; margin-top:30px; font-size:14px; }
+
+/* === Scroll animation === */
+@keyframes fadeUp { 0% { opacity:0; transform:translateY(20px);} 100% { opacity:1; transform:translateY(0);} }
+.car { animation: fadeUp 0.5s ease forwards; }
 </style>
 </head>
 <body>
@@ -41,14 +62,15 @@ footer { background:#111; color:white; text-align:center; padding:30px; }
 </header>
 
 <section id="cars-section" class="container">
-<h2>Véhicules disponibles</h2>
+<h2>Nos Véhicules</h2>
 <div class="cars" id="cars"></div>
 </section>
 
 <section id="contact-section">
-<div class="container">
+<div class="contact">
 <h2>Réservation et contact</h2>
-<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>. Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
+<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>.</p>
+<p>Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
 <p>Contact WhatsApp : +33 7 46 52 56 38</p>
 </div>
 </section>
