@@ -1,1 +1,99 @@
- 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroCar Import</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f2f2f2; }
+header { background:#111; color:white; text-align:center; padding:30px; }
+header h1 { margin:0; }
+.container { max-width:1200px; margin:auto; padding:40px; }
+.cars { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
+.car { background:white; border-radius:10px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+.car img { width:100%; height:180px; object-fit:cover; }
+.car-info { padding:15px; }
+.price { font-size:20px; color:#0a7f2e; font-weight:bold; }
+.status { font-weight:bold; margin-top:5px; }
+.available { color:green; }
+.reserved { color:orange; }
+.sold { color:red; }
+button { width:100%; padding:12px; border:none; border-radius:5px; font-size:16px; margin-top:10px; cursor:pointer; }
+.reserve { background:#0a7f2e; color:white; }
+.whatsapp { background:#25D366; color:white; }
+.info { background:#111; color:white; padding:40px; text-align:center; }
+</style>
+
+</head>
+<body>
+
+<header>
+<h1>EuroCar Import</h1>
+<p>Véhicules disponibles en Europe</p>
+</header>
+
+<div class="container">
+<div class="cars" id="cars"></div>
+</div>
+
+<div class="info">
+<h2>Réservation d’un véhicule</h2>
+<p>La réservation d’un véhicule est possible avec un acompte de <b>150€</b>.</p>
+<p>Ce montant est <b>remboursable</b> en cas d’annulation avant l’expédition du véhicule.</p>
+<p>Contact WhatsApp : +33 7 46 52 56 38</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+<script>
+const container = document.getElementById("cars");
+const githubUser = "mistere695"; // ton nom GitHub
+const repo = "AutoPfand-Markt";   // nom du repo
+const branch = "main";
+
+async function loadCars() {
+  try {
+    const files = await axios.get(`https://api.github.com/repos/${githubUser}/${repo}/contents/_voitures?ref=${branch}`);
+    for (const file of files.data) {
+      const carFile = await axios.get(file.download_url);
+      const carData = jsyaml.load(carFile.data);
+      
+      container.innerHTML += `
+        <div class="car">
+          <img src="${carData.image}">
+          <div class="car-info">
+            <h3>${carData.name}</h3>
+            <p>Année : ${carData.year}</p>
+            <p>Kilométrage : ${carData.km} km</p>
+            <p class="price">${carData.price} €</p>
+            <p class="status ${carData.status.toLowerCase()}">${carData.status}</p>
+            <button class="reserve" onclick="reserve('${carData.name}')">
+              Réserver (150€)
+            </button>
+            <button class="whatsapp" onclick="contact('${carData.name}')">
+              Contacter WhatsApp
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  } catch (error) {
+    console.error("Erreur lors du chargement des voitures :", error);
+  }
+}
+
+loadCars();
+
+function reserve(car) {
+  window.location.href = `https://wa.me/33746525638?text=Bonjour, je souhaite réserver le véhicule ${car} avec l'acompte de 150€`;
+}
+
+function contact(car) {
+  window.location.href = `https://wa.me/33746525638?text=Bonjour, je souhaite des informations sur ${car}`;
+}
+</script>
+
+</body>
+</html>
